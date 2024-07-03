@@ -3,25 +3,21 @@ import 'package:widget_lifecycle/pages/example_page.dart';
 
 // ignore: must_be_immutable
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, @required this.counter, @required this.onPress}) : super(key: key);
+  MyHomePage({Key ?key, required this.counter, required this.onPress})
+      : super(key: key);
 
   int counter;
-  final Function onPress;
+  final Function(int) onPress;
 
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateMixin {
+class _MyHomePageState extends State<MyHomePage>
+    with SingleTickerProviderStateMixin {
 
-  AnimationController _animationController;
 
-  @override
-  void initState() {
-    super.initState();
-    print('Widget Lifecycle: initState');
-    _animationController = AnimationController(vsync: this);
-  }
+
 
   @override
   void didChangeDependencies() {
@@ -34,7 +30,8 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
     super.didUpdateWidget(oldWidget);
     print('Widget Lifecycle: didUpdateWidget');
     if (this.widget.counter != oldWidget.counter) {
-      print('Count has changed');
+        print('Count has changed');
+
     }
   }
 
@@ -47,7 +44,6 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
   @override
   void dispose() {
     print('Widget Lifecycle: dispose');
-    _animationController.dispose();
     super.dispose();
   }
 
@@ -59,11 +55,8 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
 
   @override
   Widget build(BuildContext context) {
-
+    print("//counter${widget.counter}");
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Flutter Widget Lifecycle'),
-      ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -73,22 +66,19 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
             ),
             Text(
               '${widget.counter}',
-              style: Theme.of(context).textTheme.headline4,
+              style: Theme
+                  .of(context)
+                  .textTheme
+                  .headline4,
             ),
             SizedBox(height: 8.0,),
             ElevatedButton(
-              onPressed: widget.onPress,
+              onPressed: (){  widget.onPress(widget.counter);}
+              ,
               child: Text('Reset count'),
             ),
             SizedBox(height: 8.0,),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(builder: (context) => ExamplePage()),
-                );
-              },
-              child: Text('Navigate to new route'),
-            ),
+
           ],
         ),
       ),
@@ -98,5 +88,8 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
         child: Icon(Icons.add),
       ),
     );
+  }
+  initCounter(){
+    widget.onPress(widget.counter);
   }
 }
