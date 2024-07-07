@@ -17,19 +17,34 @@ class MyApp extends StatefulWidget {
   _MyAppState createState() => _MyAppState();
 }
 
+//aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
 class _MyAppState extends State<MyApp> {
   int counter = 0;
+  late String b='';
 
   void resetCounter(int a) {
     setState(() {
       //counter = 0;
-      print("objectsss$counter");
+      print("$a" + "objectsss$counter");
+      counter = a;
+    });
+  }
+
+  void incrementCounter(int b) {
+    setState(() {
+      print("$b" + "objectsss$b");
+      counter = b;
     });
   }
 
   @override
+  initState() {
+    print("initState Called");
+  }
+
+  @override
   Widget build(BuildContext context) {
-    print("zzzzzzzzzzzzzzzzzzz");
+    print("main$b");
     return Scaffold(
         appBar: AppBar(
           title: Text('Flutter Widget Lifecycle'),
@@ -42,6 +57,12 @@ class _MyAppState extends State<MyApp> {
               MyHomePage(
                 counter: counter,
                 onPress: resetCounter,
+                incr: incrementCounter,
+                datacallback: (atring) {
+                  setState(() {
+                    b = atring; print("main$atring");
+                  });
+                },
               ),
               Positioned(
                 bottom: 100,
